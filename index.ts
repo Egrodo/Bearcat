@@ -1,19 +1,34 @@
 import path from "path";
 import fs from "fs";
 import { Client, Collection, Intents } from "discord.js";
-import { token } from "./config.json";
-import deployCommands from "./deploy-commands";
+import { Routes } from "discord-api-types/v9";
+import { clientId, guildId, token } from "./config.json";
+import { REST } from "@discordjs/rest";
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 const commands = new Collection<string, any>();
 
 const commandFiles = fs
-  .readdirSync(path.resolve(__dirname, "./dist/commands"))
+  .readdirSync(path.resolve(__dirname, "./commands"))
   .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-  const command = require(path.resolve(__dirname, `./dist/commands/${file}`));
+  const command = require(path.resolve(__dirname, `./commands/${file}`));
   commands.set(command.data.name, command);
+}
+
+const rest = new REST({ version: "9" }).setToken(token);
+
+async function deployCommands() {
+  try {
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+      body: commands.map((command) => command.data.toJSON()),
+    });
+
+    console.log("Successfully registered application commands.");
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 client.once("ready", () => {
