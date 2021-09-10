@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "dev": "ts-node-dev --debounce --respawn -- index.ts"
+    "dev": "node-dev index.ts"
   },
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
@@ -19,9 +19,9 @@
   "devDependencies": {
     "@types/node": "^16.7.6",
     "discord-api-types": "^0.22.0",
-    "nodemon": "^2.0.12",
+    "node-dev": "^7.0.0",
     "prettier": "^2.3.2",
-    "ts-node-dev": "^1.1.8",
+    "ts-node": "^10.2.1",
     "tslint": "^6.1.3",
     "typescript": "^4.4.2"
   }
