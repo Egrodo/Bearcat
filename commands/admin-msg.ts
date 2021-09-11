@@ -1,9 +1,4 @@
-import {
-  CommandInteraction,
-  GuildChannel,
-  MessageActionRow,
-  MessageButton,
-} from "discord.js";
+import { CommandInteraction, GuildChannel, Formatters } from "discord.js";
 
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GetSendMajorInfo } from "../assets/messages";
@@ -65,7 +60,10 @@ export default {
 
     if (givenMsg == null || typeof givenMsg !== "string") return;
 
-    channel.send(givenMsg);
+    await channel.send(givenMsg);
+    await interaction.reply(
+      `Successfully sent message to ${Formatters.channelMention(channel.id)}`
+    );
   },
   allowedRoles: [ADMIN_TEAM_ID, MODERATOR_ROLE_ID],
 };

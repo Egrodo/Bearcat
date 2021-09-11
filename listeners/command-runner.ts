@@ -1,7 +1,5 @@
-import { Client, Interaction, Formatters } from "discord.js";
+import { Interaction, Formatters } from "discord.js";
 import commands from "../commands";
-import { Routes } from "discord-api-types/v9";
-import { clientId, guildId } from "../config.json";
 import ClientListeners from "../utils/client-listener";
 
 export default class CommandRunner extends ClientListeners {
