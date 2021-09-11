@@ -28,7 +28,7 @@ export default {
     const fullMajorName = majorsInfo[givenMajor.toUpperCase()];
 
     if (fullMajorName == null) {
-      interaction.reply("Major not found");
+      interaction.reply({ content: "Major not found", ephemeral: true });
       return;
     }
 
@@ -50,7 +50,7 @@ export default {
     );
     // If user has a major role, remove it first.
     const allMajorRoles = interaction.guild.roles.cache.filter((role) => {
-      if (role.name.endsWith("Major")) {
+      if (role.name.endsWith("Major") || role.name === majorsInfo.UNDECIDED) {
         return true;
       }
       return false;
