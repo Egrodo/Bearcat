@@ -22,16 +22,6 @@ export default {
     ),
 
   async execute(interaction: CommandInteraction) {
-    if (interaction.channelId !== MAJOR_ASSIGNMENT_CHANNEL_ID) {
-      interaction.reply({
-        content: `This command can only be used in the ${Formatters.channelMention(
-          MAJOR_ASSIGNMENT_CHANNEL_ID
-        )} channel.`,
-        ephemeral: true,
-      });
-      return;
-    }
-
     const givenMajor = interaction.options.get("major")?.value;
     if (givenMajor == null || typeof givenMajor !== "string") return;
 
@@ -82,4 +72,5 @@ export default {
     GRAD_STUDENT_ROLE_ID,
     ALUMNI_ROLE_ID,
   ],
+  allowedChannels: [MAJOR_ASSIGNMENT_CHANNEL_ID],
 };

@@ -1,16 +1,12 @@
 import {
   CommandInteraction,
-  CommandInteractionOption,
   GuildChannel,
-  IntegrationApplication,
   MessageActionRow,
   MessageButton,
 } from "discord.js";
 
-import { APIInteractionDataResolvedChannel } from "discord-api-types";
 import { SlashCommandBuilder } from "@discordjs/builders";
-
-import majorsInfo from "../assets/majors-info.json";
+import { GetSendMajorInfo } from "../assets/messages";
 import { MODERATOR_ROLE_ID } from "../assets/constants";
 
 const ADMIN_TEAM_ID = "482768358232555521";
@@ -22,48 +18,54 @@ export default {
       "[STAFF ONLY], send a message as Bearcat Bot to whichever channel specified"
     )
     .setDefaultPermission(false)
-    .addStringOption((option) =>
-      option
+    .addSubcommand((subcommand) =>
+      subcommand
         .setName("message")
-        .setDescription("the message to send")
-        .setRequired(true)
+        .setDescription("Send an arbitrary message to a given channel")
+        .addStringOption((msg) =>
+          msg
+            .setName("message")
+            .setDescription("The message to send")
+            .setRequired(true)
+        )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("the channel to send the message to")
+            .setRequired(true)
+        )
     )
-    .addChannelOption((option) =>
-      option
-        .setName("channel")
-        .setDescription("the channel to send the message to")
-        .setRequired(true)
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("sendmajorinfo")
+        .setDescription(
+          "Send information about how to use /setmajor to a given channel"
+        )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("the channel to send the message to")
+            .setRequired(true)
+        )
     ),
   async execute(interaction: CommandInteraction) {
-    const givenMsg = interaction.options.get("message")?.value;
     const givenChannel = interaction.options.get("channel");
-    if (
-      givenMsg == null ||
-      givenChannel == null ||
-      typeof givenMsg !== "string"
-    )
-      return;
-
     const channel = givenChannel.channel as GuildChannel;
-
     if (channel == null || !channel.isText()) {
       interaction.reply(`ERROR: "${channel.name}" is not a text channel`);
       return;
     }
+    if (interaction.options.getSubcommand() === "sendmajorinfo") {
+      const str = GetSendMajorInfo();
+      await channel.send(str);
+      return;
+    }
 
-    const btn = new MessageActionRow().addComponents(
-      new MessageButton().setCustomId("yesBtn").setLabel(`Yes`).setStyle(1),
-      new MessageButton().setCustomId("noBtn").setLabel("No").setStyle(2)
-    );
+    const givenMsg = interaction.options.get("message")?.value;
 
-    await interaction.reply(`"${givenMsg}"`);
-    await interaction.channel.send({
-      content: `Are you sure you want to send the above message to ${channel.name}?`,
-      components: [btn],
-    });
+    if (givenMsg == null || typeof givenMsg !== "string") return;
 
-    // TODO: Might have to confirm this with a general-purpose ButtonInteraction listener,
-    // meaning we will have to store pending message sends in memory and identify them with a customId.
+    channel.send(givenMsg);
   },
   allowedRoles: [ADMIN_TEAM_ID, MODERATOR_ROLE_ID],
 };
