@@ -3,7 +3,7 @@ import { Client } from "discord.js";
 import { Routes } from "discord-api-types/v9";
 import { clientId, guildId, token } from "../config.json";
 import { REST } from "@discordjs/rest";
-import ClientListeners from "../utils/client-listener";
+import ClientListeners from "../utils/client-listener-type";
 
 const rest = new REST({ version: "9" }).setToken(token);
 
