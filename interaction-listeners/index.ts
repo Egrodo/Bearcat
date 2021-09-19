@@ -1,6 +1,15 @@
 import path from "path";
 import { promises as fsPromises } from "fs";
-import ClientListeners from "../utils/client-listener-type";
+
+export abstract class ClientListeners {
+  public event: string;
+
+  constructor(eventType: string) {
+    this.event = eventType;
+  }
+
+  abstract handler(any): Promise<void>;
+}
 
 async function getListeners(): Promise<Array<ClientListeners>> {
   const listenerFileNames = await fsPromises.readdir(__dirname);

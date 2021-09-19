@@ -1,6 +1,6 @@
 import { Interaction, Formatters } from "discord.js";
 import getCommands from "../commands";
-import ClientListeners from "../utils/client-listener-type";
+import { ClientListeners } from "./index";
 import type { Collection } from "discord.js";
 
 export default class CommandRunner extends ClientListeners {

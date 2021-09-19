@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import ClientListeners from "../utils/client-listener-type";
+import { ClientListeners } from "./index";
 import {
   ADMIN_ROLE_ID,
   MAJOR_ASSIGNMENT_CHANNEL_ID,
