@@ -2,9 +2,7 @@ import { CommandInteraction, GuildChannel, Formatters } from "discord.js";
 
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { GetSendMajorInfo } from "../assets/messages";
-import { MODERATOR_ROLE_ID } from "../assets/constants";
-
-const ADMIN_TEAM_ID = "482768358232555521";
+import { ADMIN_ROLE_ID, MODERATOR_ROLE_ID } from "../assets/constants";
 
 export default {
   data: new SlashCommandBuilder()
@@ -65,5 +63,5 @@ export default {
       `Successfully sent message to ${Formatters.channelMention(channel.id)}`
     );
   },
-  allowedRoles: [ADMIN_TEAM_ID, MODERATOR_ROLE_ID],
+  allowedRoles: [ADMIN_ROLE_ID, MODERATOR_ROLE_ID],
 };
