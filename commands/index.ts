@@ -1,12 +1,22 @@
+import path from "path";
+import { promises as fsPromises } from "fs";
 import { Collection } from "discord.js";
 
-import adminMsg from "./admin-msg";
-import setMajor from "./set-major";
-import ping from "./ping";
+async function getCommands() {
+  const collection = new Collection<string, any>();
+  const commandFileNames = await fsPromises.readdir(__dirname);
+  const commandImportPromises = [];
+  for (let i = 0; i < commandFileNames.length; ++i) {
+    const cmdFilename = commandFileNames[i];
+    if (cmdFilename.includes("index")) continue;
+    const commandPath = path.join(__dirname, cmdFilename);
+    commandImportPromises.push(require(commandPath).default);
+  }
 
-const collection = new Collection<string, any>();
-collection.set(adminMsg.data.name, adminMsg);
-collection.set(setMajor.data.name, setMajor);
-collection.set(ping.data.name, ping);
+  const commands = await Promise.all(commandImportPromises);
+  commands.forEach((command) => collection.set(command.data.name, command));
 
-export default collection;
+  return collection;
+}
+
+export default getCommands;

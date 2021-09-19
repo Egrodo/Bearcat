@@ -1,13 +1,17 @@
-import commands from "../commands";
+import getCommands from "../commands";
 import { Client } from "discord.js";
 import { Routes } from "discord-api-types/v9";
 import { clientId, guildId, token } from "../config.json";
 import { REST } from "@discordjs/rest";
 import ClientListeners from "../utils/client-listener-type";
+import type { Collection } from "discord.js";
 
 const rest = new REST({ version: "9" }).setToken(token);
 
-async function deployCommands(client: Client) {
+async function deployCommands(
+  client: Client,
+  commands: Collection<string, any>
+) {
   if (commands.size === 0) {
     console.error("There are no commands to register, exiting");
     return;
@@ -41,13 +45,16 @@ async function deployCommands(client: Client) {
 }
 
 export default class Init extends ClientListeners {
+  private _commands: Collection<string, any>;
+
   constructor() {
     super("ready");
   }
 
   async handler(client: Client): Promise<void> {
     console.log("Starting...");
-    await deployCommands(client);
+    this._commands = await getCommands();
+    await deployCommands(client, this._commands);
     console.log("Deployed Commands");
   }
 }

@@ -1,15 +1,20 @@
 import { Interaction, Formatters } from "discord.js";
-import commands from "../commands";
+import getCommands from "../commands";
 import ClientListeners from "../utils/client-listener-type";
+import type { Collection } from "discord.js";
 
 export default class CommandRunner extends ClientListeners {
+  private _commands: Collection<string, any>;
+
   constructor() {
     super("interactionCreate");
   }
 
   async handler(interaction: Interaction) {
     if (!interaction.isCommand()) return;
-    const command = commands.get(interaction.commandName);
+    if (this._commands == null) this._commands = await getCommands();
+
+    const command = this._commands.get(interaction.commandName);
 
     if (!command) return;
     if (
