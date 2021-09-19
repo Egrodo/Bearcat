@@ -2,7 +2,7 @@ import path from "path";
 import { promises as fsPromises } from "fs";
 import { Collection } from "discord.js";
 
-async function getCommands() {
+async function getCommands(): Promise<Collection<string, any>> {
   const collection = new Collection<string, any>();
   const commandFileNames = await fsPromises.readdir(__dirname);
   const commandImportPromises = [];
