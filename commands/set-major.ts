@@ -9,6 +9,7 @@ import {
   ALUMNI_ROLE_ID,
   MODERATOR_ROLE_ID,
 } from "../assets/constants";
+
 export default {
   data: new SlashCommandBuilder()
     .setName("setmajor")

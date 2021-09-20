@@ -15,8 +15,8 @@ getInteractionListeners().then((listeners) => {
     client.on(listener.event, listener.handler);
   });
   client.login(token);
-
-  cron.schedule("0 0 * * *", () => autoPingUnknownUsers(client));
 });
+
+cron.schedule("0 0 * * *", () => autoPingUnknownUsers(client));
 
 export default client;
