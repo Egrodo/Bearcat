@@ -11,11 +11,11 @@ export default class GhostPingOnjoin extends ClientListeners {
     super("guildMemberAdd");
   }
   async handler(member: GuildMember): Promise<void> {
-  const baruchGuild = await member.client.guilds.fetch(BARUCH_GUILD_ID);
-  const channel = (await baruchGuild.channels.fetch(ROLE_ASSIGNMENT_CHANNEL_ID)) as TextChannel;
-
-  const msg = await channel.send(`${Formatters.userMention(member.id)}`);
-  await awaitTimeout(500);
-  msg.delete();
+    const baruchGuild = await member.client.guilds.fetch(BARUCH_GUILD_ID);
+    const channel = (await baruchGuild.channels.fetch(ROLE_ASSIGNMENT_CHANNEL_ID)) as TextChannel;
+  
+    const msg = await channel.send(`${Formatters.userMention(member.id)}`);
+    await awaitTimeout(500);
+    msg.delete();
   }
 }
