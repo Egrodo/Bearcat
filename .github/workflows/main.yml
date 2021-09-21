@@ -23,6 +23,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: SSH Remote Commands
+        on: [push]
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
