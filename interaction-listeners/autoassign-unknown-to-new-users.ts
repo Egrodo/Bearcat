@@ -8,6 +8,7 @@ export default class AutoassignUnknownToNewUsers extends ClientListeners {
   }
 
   async handler(member: GuildMember): Promise<void> {
-    member.roles.add(UNKNOWN_ROLE_ID);
+    const unknownRole = member.guild.roles.cache.get(UNKNOWN_ROLE_ID);
+    member.roles.add(unknownRole);
   }
 }

@@ -7,7 +7,6 @@ import {
   UNKNOWN_ROLE_ID,
 } from "../assets/constants";
 import ghostPing from "../utils/ghostPing";
-import awaitTimeout from "../utils/awaitTimeout";
 
 /**
  * When a user adds a core role but doesn't have any major roles, ghostping them to the major-assignment channel.
