@@ -7,7 +7,12 @@ import getInteractionListeners from "./interaction-listeners";
 import autoPingUnknownUsers from "./manual-listeners/auto-ping-unknown-users";
 
 const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+  ],
 });
 
 getInteractionListeners().then((listeners) => {
