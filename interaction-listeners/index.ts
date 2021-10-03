@@ -8,7 +8,7 @@ export abstract class ClientListeners {
     this.event = eventType;
   }
 
-  abstract handler(any): Promise<void>;
+  abstract handler(...any): Promise<void>;
 }
 
 async function getListeners(): Promise<Array<ClientListeners>> {
