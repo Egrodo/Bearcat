@@ -6,12 +6,13 @@ import {
   CORE_ROLES,
 } from "../assets/constants";
 
-export default class guildMemberUpdate extends ClientListeners {
+export default class UnknownRoleManager extends ClientListeners {
   constructor() {
     super("guildMemberUpdate");
   }
 
   async handler(oldMember: GuildMember, newMember: GuildMember): Promise<void> {
+    console.log("unknown role manager ran");
     if (oldMember.roles.cache.hasAny(...MANAGEMENT_ROLES)) return;
 
     // If member removes one of the coreRoles (and does not have another one), remove all roles and add unknown.
